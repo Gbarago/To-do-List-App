@@ -4,25 +4,6 @@ import 'package:kan_do/todo.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
-// class DatabaseHelper {
-//   Future<Database> database () async {
-//     return await openDatabase(
-//       join(await getDatabasesPath(), 'todo.db'),
-//       onCreate: oncreate,
-//       version: 1,
-//     );
-//   }
-
-//   Future<void> oncreate(db, version) async {
-//     // return
-//     await db.execute(
-//         "CREATE TABLE tasks(id INTEGER PRIMARY KEY, title TEXT, description TEXT)");
-//     await db.execute(
-//         "CREATE TABLE todo(id INTEGER PRIMARY KEY, taskId INTEGER, title TEXT, isDone INTEGER)");
-
-//     return db;
-//   }
-
 class DatabaseHelper {
   late Database? _db;
 
