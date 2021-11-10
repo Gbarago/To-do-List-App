@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'dart:math';
+
+import 'package:kan_do/data_base_helpers.dart';
+import '../task.dart';
 
 class TaskCard extends StatelessWidget {
   final String? title;
@@ -12,7 +16,7 @@ class TaskCard extends StatelessWidget {
       width: double.infinity,
       padding: const EdgeInsets.symmetric(vertical: 32, horizontal: 24),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Colors.primaries[Random().nextInt(Colors.primaries.length)],
         borderRadius: BorderRadius.circular(10),
       ),
       child: Column(
@@ -20,14 +24,25 @@ class TaskCard extends StatelessWidget {
         children: [
           Text(
             title ?? 'Untitled Task',
-            style: const TextStyle(color: Color(0xff211517), fontSize: 22),
+            style: const TextStyle(color: Colors.white, fontSize: 24
+                //Color(0xff211517),
+                ),
           ),
           Padding(
             padding: const EdgeInsets.only(top: 10),
-            child: Text(
+            child:
+//                 if(desc !=""){
+//               Text(desc)
+//             }else{
+// Text(' Please Add Task Description');
+//             }
+                Text(
               desc ?? ' Please Add Task Description',
               style: const TextStyle(
-                  color: Color(0xff868295), height: 1.2, fontSize: 16),
+                  color: Color(0xFFE0DEEB),
+                  // color: Colors.white,
+                  height: 1.2,
+                  fontSize: 16),
             ),
           )
         ],
@@ -54,12 +69,14 @@ class ToDoWidget extends StatelessWidget {
             width: 20,
             height: 20,
             decoration: BoxDecoration(
-                color: isDone ? const Color(0xFF0517B4) : Colors.transparent,
+                //Color(0xFF0517B4)
+                color: isDone ? Colors.purpleAccent : Colors.transparent,
                 borderRadius: BorderRadius.circular(7),
                 border: isDone
                     ? null
                     : Border.all(
-                        color: Color(0xFF0517B4),
+                        color: Colors.purple,
+                        //color: Color(0xFF0517B4),
                         width: 1.5,
                       )),
             child: Image(
@@ -87,5 +104,77 @@ class NoGlowBehavior extends ScrollBehavior {
   Widget buidViewportChrome(
       BuildContext context, Widget child, AxisDirection axisDirection) {
     return child;
+  }
+}
+
+class PopWidget extends StatefulWidget {
+  final Task? task;
+  final String popMsg;
+  final String alertMsg;
+  final String confirm;
+  final String close;
+  // ignore: prefer_typing_uninitialized_variables
+  final onTap;
+  // ignore: prefer_typing_uninitialized_variables
+  final onTapClose;
+
+  PopWidget(BuildContext context, this.task,
+      {required this.popMsg,
+      required this.alertMsg,
+      required this.confirm,
+      required this.close,
+      this.onTap,
+      this.onTapClose});
+
+  @override
+  _PopWidgetState createState() => _PopWidgetState();
+}
+
+class _PopWidgetState extends State<PopWidget> {
+  DatabaseHelper _dbHelper = DatabaseHelper();
+  int _taskId = 0;
+
+  @override
+  void initState() {
+    if (widget.task != null) {
+      _taskId = widget.task!.id!;
+    }
+
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      backgroundColor: Colors.purple,
+      title: Text(
+        widget.alertMsg,
+      ),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text(widget.popMsg),
+        ],
+      ),
+      actions: <Widget>[
+        MaterialButton(
+          onPressed: widget.onTapClose,
+          textColor: Theme.of(context).primaryColor,
+          child: Text(
+            widget.close,
+            style: TextStyle(color: Colors.white),
+          ),
+        ),
+        MaterialButton(
+          onPressed: widget.onTap,
+          textColor: Theme.of(context).primaryColor,
+          child: Text(
+            widget.confirm,
+            style: TextStyle(color: Colors.white),
+          ),
+        ),
+      ],
+    );
   }
 }

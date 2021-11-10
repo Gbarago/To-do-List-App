@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:kan_do/screens/home.dart';
+import 'package:kan_do/screens/splash_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -17,7 +18,9 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
           textTheme:
               GoogleFonts.nunitoSansTextTheme(Theme.of(context).textTheme)),
-      home: Home(),
+      routes: {
+        '/': (context) => const SplashScreen(),
+      },
     );
   }
 }
