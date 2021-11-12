@@ -21,7 +21,7 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   _navigateToLaunch() async {
-    await Future.delayed(const Duration(seconds: 10), () {});
+    await Future.delayed(const Duration(seconds: 9), () {});
 
     Navigator.pushReplacement(
         context,
